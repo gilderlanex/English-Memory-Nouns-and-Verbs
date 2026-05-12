@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Memory Verbs</title>
+    <!-- Modern Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>🧠 English Memory Verbs</h1>
+            <p>Aprenda verbos no contexto certo.</p>
+        </header>
+
+        <nav class="app-nav">
+            <button class="nav-btn active" data-target="dictionary-view">📚 Dicionário</button>
+            <button class="nav-btn" data-target="exercise-view">🎯 Exercícios</button>
+        </nav>
+
+        <main class="app-main">
+            
+            <!-- View: Dictionary -->
+            <section id="dictionary-view" class="view active-view">
+                <div class="filters">
+                    <label for="category-filter">Filtrar por Categoria:</label>
+                    <select id="category-filter">
+                        <option value="all">Todas</option>
+                        <!-- Options populated by JS -->
+                    </select>
+                </div>
+
+                <div class="verb-list" id="verb-list-container">
+                    <!-- Verb cards populated by JS -->
+                </div>
+            </section>
+
+            <!-- View: Exercises -->
+            <section id="exercise-view" class="view">
+                <div class="exercise-container">
+                    <div class="exercise-header">
+                        <span class="category-badge" id="exercise-category">Categoria</span>
+                        <div class="score">Acertos: <span id="score-count">0</span></div>
+                    </div>
+
+                    <div class="flashcard" id="flashcard">
+                        <div class="card-inner">
+                            <!-- Front of the card (Question) -->
+                            <div class="card-front">
+                                <h2 class="portuguese-hint" id="pt-hint">Tradução</h2>
+                                <p class="sentence-context" id="sentence-en">The sentence goes here with a ___.</p>
+                                
+                                <form id="answer-form">
+                                    <input type="text" id="verb-input" placeholder="Digite o verbo em inglês..." autocomplete="off" required>
+                                    <button type="submit" class="btn primary">Verificar</button>
+                                </form>
+                                <div class="feedback" id="feedback-msg"></div>
+                            </div>
+
+                            <!-- Back of the card (Answer & Translation) -->
+                            <div class="card-back">
+                                <h2>Resposta Correta:</h2>
+                                <h1 class="correct-verb" id="correct-verb-display">Verb</h1>
+                                <p class="sentence-translation" id="sentence-pt">Tradução da frase completa.</p>
+                                <button id="next-btn" class="btn secondary">Próximo Verbo ➔</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
