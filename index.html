@@ -27,10 +27,17 @@
             <!-- View: Dictionary -->
             <section id="dictionary-view" class="view active-view">
                 <div class="filters">
-                    <label for="category-filter">Filtrar por Categoria:</label>
+                    <label for="category-filter">Categoria:</label>
                     <select id="category-filter">
                         <option value="all">Todas</option>
                         <!-- Options populated by JS -->
+                    </select>
+
+                    <label for="type-filter-dict" style="margin-left: 15px;">Tipo:</label>
+                    <select id="type-filter-dict">
+                        <option value="all">Todos</option>
+                        <option value="verb">Verbos</option>
+                        <option value="noun">Substantivos</option>
                     </select>
                 </div>
 
@@ -45,6 +52,15 @@
                     <div class="exercise-header">
                         <span class="category-badge" id="exercise-category">Categoria</span>
                         <div class="score">Acertos: <span id="score-count">0</span></div>
+                    </div>
+
+                    <div class="filters" style="justify-content: center; margin-bottom: 20px;">
+                        <label for="type-filter">Treinar:</label>
+                        <select id="type-filter">
+                            <option value="all">Verbos e Substantivos</option>
+                            <option value="verb">Apenas Verbos</option>
+                            <option value="noun">Apenas Substantivos</option>
+                        </select>
                     </div>
 
                     <div class="flashcard" id="flashcard">
@@ -64,7 +80,10 @@
                             <!-- Back of the card (Answer & Translation) -->
                             <div class="card-back">
                                 <h2>Resposta Correta:</h2>
-                                <h1 class="correct-verb" id="correct-verb-display">Verb</h1>
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                                    <h1 class="correct-verb" id="correct-verb-display">Verb</h1>
+                                    <button id="audio-btn-exercise" style="background: none; border: none; cursor: pointer; font-size: 1.5rem;">🔊</button>
+                                </div>
                                 <p class="sentence-translation" id="sentence-pt">Tradução da frase completa.</p>
                                 <button id="next-btn" class="btn secondary">Próximo Verbo ➔</button>
                             </div>

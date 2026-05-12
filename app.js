@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const verbInput = document.getElementById('verb-input');
     const answerForm = document.getElementById('answer-form');
     const feedbackMsg = document.getElementById('feedback-msg');
+    const typeFilter = document.getElementById('type-filter');
+    const typeFilterDict = document.getElementById('type-filter-dict');
     
     // Back of card
     const correctVerbDisplay = document.getElementById('correct-verb-display');
@@ -33,6 +35,38 @@ document.addEventListener('DOMContentLoaded', () => {
         populateCategories();
         renderVerbList('all');
         setupNavigation();
+        
+        if (typeFilter) {
+            typeFilter.addEventListener('change', () => {
+                exerciseList = getFilteredExerciseList();
+                loadNextExercise();
+            });
+        }
+
+        if (typeFilterDict) {
+            typeFilterDict.addEventListener('change', () => {
+                renderVerbList(categoryFilter.value);
+            });
+        }
+
+        // Audio delegation
+        if (verbListContainer) {
+            verbListContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('audio-btn')) {
+                    const word = e.target.getAttribute('data-word');
+                    speak(word);
+                }
+            });
+        }
+
+        const audioBtnExercise = document.getElementById('audio-btn-exercise');
+        if (audioBtnExercise) {
+            audioBtnExercise.addEventListener('click', () => {
+                const word = correctVerbDisplay.textContent;
+                speak(word.replace('to ', ''));
+            });
+        }
+
         loadNextExercise();
     }
 
@@ -70,19 +104,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function speak(text) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        speechSynthesis.speak(utterance);
+    }
+
     function renderVerbList(category) {
         verbListContainer.innerHTML = '';
         
-        const filteredVerbs = category === 'all' 
-            ? verbData 
-            : verbData.filter(v => v.category === category);
+        const type = typeFilterDict ? typeFilterDict.value : 'all';
+        
+        const filteredVerbs = verbData.filter(v => {
+            const matchCategory = category === 'all' || v.category === category;
+            const matchType = type === 'all' || v.type === type;
+            return matchCategory && matchType;
+        });
 
         filteredVerbs.forEach(verb => {
             const card = document.createElement('div');
             card.className = 'verb-card';
             card.innerHTML = `
                 <span class="category-tag">${verb.category}</span>
-                <h3 style="margin-top: 10px;">${verb.infinitive}</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                    <h3>${verb.infinitive}</h3>
+                    <button class="audio-btn" data-word="${verb.infinitive.replace('to ', '')}" style="background: none; border: none; cursor: pointer; font-size: 1.2rem;">🔊</button>
+                </div>
+                <p style="color: #3b82f6; font-family: monospace;">${verb.ipa || ''}</p>
                 <p><strong>Tradução:</strong> ${verb.translation}</p>
                 <p style="font-size: 0.85rem; color: #94a3b8; font-style: italic;">
                     Ex: "${verb.sentences[0].english.replace('___', verb.sentences[0].answer)}"
@@ -93,9 +141,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Exercise Logic ---
+    function getFilteredExerciseList() {
+        const type = typeFilter ? typeFilter.value : 'all';
+        if (type === 'all') {
+            return [...verbData];
+        }
+        return verbData.filter(v => v.type === type);
+    }
+
     function getRandomVerb() {
         if (exerciseList.length === 0) {
-            exerciseList = [...verbData]; // Reset if all verbs used
+            exerciseList = getFilteredExerciseList();
         }
         const randomIndex = Math.floor(Math.random() * exerciseList.length);
         const verb = exerciseList[randomIndex];
