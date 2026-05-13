@@ -370,8 +370,72 @@ input[type="text"]:focus {
 
 /* Responsiveness */
 @media (max-width: 600px) {
-    .app-header h1 { font-size: 1.8rem; }
-    .nav-btn { padding: 8px 16px; font-size: 0.9rem; }
-    .flashcard { height: 400px; }
-    .correct-verb { font-size: 2rem; }
+    body {
+        padding: 10px;
+    }
+    
+    .app-container {
+        padding: 20px;
+        border-radius: 16px;
+    }
+
+    .app-header h1 { 
+        font-size: 1.6rem; 
+    }
+    
+    .app-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .nav-btn { 
+        padding: 8px 16px; 
+        font-size: 0.9rem;
+        flex: 1;
+        text-align: center;
+        min-width: 120px;
+    }
+    
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .filters select {
+        width: 100%;
+        margin-left: 0 !important; /* Override inline styles if any */
+    }
+
+    .flashcard { 
+        height: 420px; 
+    }
+    
+    .card-front, .card-back {
+        padding: 20px;
+    }
+
+    .correct-verb { 
+        font-size: 2rem; 
+    }
+    
+    .portuguese-hint {
+        font-size: 1.5rem;
+    }
+    
+    .sentence-context {
+        font-size: 1rem;
+    }
 }
+
+@media (max-width: 400px) {
+    .app-header h1 { 
+        font-size: 1.4rem; 
+    }
+    
+    .flashcard { 
+        height: 450px; 
+    }
+}
+

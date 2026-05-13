@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
     let currentVerbIndex = null;
     let exerciseList = [...verbData];
+    let skippedList = [];
+    let currentAttempts = 0;
 
     // --- Initialize ---
     function init() {
@@ -151,7 +153,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getRandomVerb() {
         if (exerciseList.length === 0) {
-            exerciseList = getFilteredExerciseList();
+            if (skippedList.length > 0) {
+                exerciseList = [...skippedList];
+                skippedList = [];
+            } else {
+                exerciseList = getFilteredExerciseList();
+            }
         }
         const randomIndex = Math.floor(Math.random() * exerciseList.length);
         const verb = exerciseList[randomIndex];
@@ -171,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
         feedbackMsg.className = 'feedback';
         verbInput.value = '';
         verbInput.focus();
+        currentAttempts = 0;
 
         // Populate Front
         exerciseCategory.textContent = verb.category;
@@ -203,7 +211,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
         } else {
             // Wrong
-            feedbackMsg.textContent = 'Incorreto. Tente novamente.';
+            currentAttempts++;
+            if (currentAttempts >= 2) {
+                feedbackMsg.textContent = `Dica: A palavra é "${correctAnswer}"`;
+            } else {
+                feedbackMsg.textContent = 'Incorreto. Tente novamente.';
+            }
             feedbackMsg.className = 'feedback wrong';
             verbInput.value = ''; // Clear input
             verbInput.focus();
@@ -213,6 +226,15 @@ document.addEventListener('DOMContentLoaded', () => {
     nextBtn.addEventListener('click', () => {
         loadNextExercise();
     });
+
+    const skipBtn = document.getElementById('skip-btn');
+    if (skipBtn) {
+        skipBtn.addEventListener('click', () => {
+            const currentVerb = verbData[currentVerbIndex];
+            skippedList.push(currentVerb);
+            loadNextExercise();
+        });
+    }
 
     // Start App
     init();

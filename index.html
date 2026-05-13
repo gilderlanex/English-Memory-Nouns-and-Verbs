@@ -72,7 +72,10 @@
                                 
                                 <form id="answer-form">
                                     <input type="text" id="verb-input" placeholder="Digite o verbo em inglês..." autocomplete="off" required>
-                                    <button type="submit" class="btn primary">Verificar</button>
+                                    <div style="display: flex; gap: 10px; width: 100%;">
+                                        <button type="submit" class="btn primary" style="flex: 2;">Verificar</button>
+                                        <button type="button" id="skip-btn" class="btn" style="flex: 1; background: #475569; color: white;">Pular</button>
+                                    </div>
                                 </form>
                                 <div class="feedback" id="feedback-msg"></div>
                             </div>
